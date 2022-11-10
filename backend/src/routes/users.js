@@ -12,8 +12,8 @@ const router = express.Router();
 router.post("/", validate_data_Joi(userSchema, "body"), async (req, res) => {
   try {
     const userData = req.body;
-    await usersService.createUser(userData);
-    successResponse(req, res, userData);
+    const userCreated = await usersService.createUser(userData);
+    successResponse(req, res, userCreated);
   } catch (error) {
     errorResponse(req, res, error);
   }
