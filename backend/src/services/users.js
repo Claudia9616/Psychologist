@@ -9,8 +9,8 @@ class UserService {
   }
 
   async createUser(userData) {
-    const { name, email, password, role } = userData;
-    const user = new User({ name, email, password, role });
+    const { name, lastName, username, email, password, role } = userData;
+    const user = new User({ name, lastName, username, email, password, role });
 
     const salt = bcryptjs.genSaltSync(10);
     user.password = bcryptjs.hashSync(password, salt);
@@ -18,6 +18,14 @@ class UserService {
     await user.save();
 
     return user;
+  }
+
+  async getUserByUsername(username) {
+    try {
+      return await User.findOne({ username });
+    } catch (error) {
+      throw boom.internal(error.message);
+    }
   }
 }
 
